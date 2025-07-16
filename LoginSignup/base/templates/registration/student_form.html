@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Student</title>
+</head>
+<body>
+  <h1>Add Student</h1>
+  <form id="studentForm">
+    <input name="name" placeholder="Name" required />
+    <input name="age" placeholder="Age" type="number" required />
+    <button type="submit">Add Student</button>
+  </form>
+
+  <script>
+    document.getElementById("studentForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData.entries());
+
+      const res = await fetch('/api/students/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      const result = await res.json();
+      alert("Student Added: " + JSON.stringify(result));
+    };
+  </script>
+</body>
+</html>

@@ -11,6 +11,9 @@ from .serializers import StudentSerializer
 class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
+    
+def student_form_page(request):
+    return render(request,'registration/student_form.html')
 
 @login_required
 def home(request):
