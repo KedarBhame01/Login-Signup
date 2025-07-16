@@ -9,7 +9,7 @@ def home(request):
 
 def authView(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POSt or None)
+        form = UserCreationForm(request.POST or None)
         if form.is_valid :
             form.save()
             return redirect("base:login")
