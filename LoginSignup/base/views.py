@@ -1,16 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-
-from rest_framework import viewsets
-
-from .models import Student
-from .serializers import StudentSerializer
-
 # Create your views here.
-class StudentViewSet(viewsets.ModelViewSet):
-    queryset = Student.objects.all()
-    serializer_class = StudentSerializer
 
 @login_required
 def home(request):
