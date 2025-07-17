@@ -1,30 +1,40 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.decorators import login_required
-
-from rest_framework import viewsets
-
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Student
-from .serializers import StudentSerializer
+from .forms import StudentForm
 
-# Create your views here.
-class StudentViewSet(viewsets.ModelViewSet):
-    queryset = Student.objects.all()
-    serializer_class = StudentSerializer
-    
-def student_form_page(request):
-    return render(request,'registration/student_form.html')
+# Home page: show form + all students
+def student_form_view(request):
+    students = Student.objects.all()
+    form = StudentForm()
 
-@login_required
-def home(request):
-    return render(request,"home.html",{})
-
-def authView(request):
-    if request.method == "POST":
-        form = UserCreationForm(request.POST or None)
-        if form.is_valid :
+    if request.method == 'POST':
+        form = StudentForm(request.POST)
+        if form.is_valid():
             form.save()
-            return redirect("base:login")
+            return redirect('student_form')
+
+    return render(request, 'registration/student_form.html', {
+        'form': form,
+        'students': students
+    })
+
+# Delete view
+def delete_student(request, id):
+    student = get_object_or_404(Student, id=id)
+    student.delete()
+    return redirect('student_form')
+
+# Edit view
+def edit_student(request, id):
+    student = get_object_or_404(Student, id=id)
+    if request.method == 'POST':
+        form = StudentForm(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+            return redirect('student_form')
     else:
-        form =UserCreationForm
-    return render(request,"registration/signup.html", {"form":form})
+        form = StudentForm(instance=student)
+
+    return render(request, 'registration/edit_student.html', {
+        'form': form
+    })
