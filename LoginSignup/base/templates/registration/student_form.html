@@ -12,7 +12,17 @@
   <button type="submit">Add</button>
 </form>
 
-<h2>All Students</h2>
+<h2>All Students   
+  <h4>
+    <a href="{% url 'export_excel' %}">
+      <button type="button">Export to Excel</button>
+    </a>
+    <a href="{% url 'export_students_pdf' %}">
+      <button type="button">Export to PDF</button>
+    </a>
+  </h4>
+</h2>
+
 <table border="1">
   <tr><th>ID</th><th>Name</th><th>Age</th><th>Actions</th></tr>
   {% for student in students %}
