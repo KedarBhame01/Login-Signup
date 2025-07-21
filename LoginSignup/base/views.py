@@ -1,9 +1,11 @@
-import openpyxl
 from django.utils.encoding import smart_str
+
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Student
 from .forms import StudentForm
 from django.http import HttpResponse
+#for export excel -
+import openpyxl
 # for export pdf -
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
